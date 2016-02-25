@@ -30,21 +30,25 @@ git clone https://github.com/jakshin/reset-finder-window.git
 ##### Step 2: Drag the application into your Finder toolbar
 
 Hold the **Cmd** key down and drag the application into your Finder toolbar:
+
 ![[screenshot]](Screenshots/Drag-Icon.png)
 
 
 ##### Step 3: Allow assistive access
 
 Open System Preferences, then navigate to **Security & Privacy > Privacy > Accessibility**. If the lock icon in the lower left is closed, click it and enter your password. Drag **Reset Window.app** into the right-hand section of the System Preferences window, and ensure that its checkbox is checked:
+
 ![[screenshot]](Screenshots/System-Settings.png)
 
 If you skip this step, you may receive an error like the following when you attempt to use the app:
+
 ![[screenshot]](Screenshots/Not-Allowed.png)
 
 
 ##### Step 4: Save your preferences
 
 Resize a Finder window to the size you like best. Also either drag the sidebar to your preferred size, or hide it completely. Then hold down either the **fn** or **shift** key, and click the app's icon in the Finder window's toolbar. You should see a dialog confirming that your preferences were saved:
+
 ![[screenshot]](Screenshots/Prefs-Saved.png)
 
 
