@@ -10,13 +10,7 @@ This little app helps make it less annoying: after you've dragged it into your F
 
 ##### Step 1: Download the files
 
-**Option 1:** Click GitHub's **Download Zip** button above, and download reset-finder-window-master.zip. Open a Terminal window in the folder where you saved the file, and run the following:
-
-```bash
-xattr -d com.apple.quarantine reset-finder-window-master.zip
-```
-
-Then unzip the file, and drag **Reset Window.app** to somewhere convenient, such as ~/AppleScripts.
+**Option 1:** Click GitHub's **Download ZIP** button above to download reset-finder-window-master.zip. Unzip it, and drag the resulting **reset-finder-window-master** folder to somewhere convenient, such as ~/AppleScripts. Feel free to rename the folder.
 
 **Option 2:** Clone with Git, by running commands like the following in Terminal:
 
@@ -27,14 +21,29 @@ git clone https://github.com/jakshin/reset-finder-window.git
 ```
 
 
-##### Step 2: Drag the application into your Finder toolbar
+##### Step 2: Build the application
+
+Open a Terminal window in the folder which contains **Reset Window.applescript** (i.e. the **reset-finder-window-master** folder if you chose option 1 above, or **~/AppleScripts/reset-finder-window** if you chose option 2), and run the following command:
+
+```bash
+./build.sh
+```
+
+This will create **Reset Window.app** by compiling **Reset Window.applescript**.
+
+The icon file **icon/ResetWindow.icns** is used as the application's icon. The icon's original [Acorn](http://flyingmeat.com/acorn/) version is in **icon/ResetWindow.acorn**.
+
+The **modifier-keys** command-line application, found in the **modifier-keys** folder, is incorporated into the application's bundle. The application uses it to determine which modifier keys are pressed as it is launched. The compiled binary is included in Git; if you'd like to recompile it from source yourself, you'll need to [install Xcode's command-line tools](https://developer.apple.com/library/ios/technotes/tn2339/_index.html), then run `make` in the **modifier-keys** folder.
+
+
+##### Step 3: Drag the application into your Finder toolbar
 
 Hold the **Cmd** key down and drag the application into your Finder toolbar:
 
 ![[screenshot]](Screenshots/Drag-Icon.png)
 
 
-##### Step 3: Allow assistive access
+##### Step 4: Allow assistive access
 
 Open System Preferences, then navigate to **Security & Privacy > Privacy > Accessibility**. If the lock icon in the lower left is closed, click it and enter your password. Drag **Reset Window.app** into the right-hand section of the System Preferences window, and ensure that its checkbox is checked:
 
@@ -45,7 +54,7 @@ If you skip this step, you may receive an error like the following when you atte
 ![[screenshot]](Screenshots/Not-Allowed.png)
 
 
-##### Step 4: Save your preferences
+##### Step 5: Save your preferences
 
 Resize a Finder window to the size you like best. Also either drag the sidebar to your preferred size, or hide it completely. Then hold down either the **fn** or **shift** key, and click the app's icon in the Finder window's toolbar. You should see a dialog confirming that your preferences were saved:
 
@@ -62,11 +71,3 @@ To uninstall the app, hold the **Cmd** key down and drag its icon out of your Fi
 If you want to be really thorough, you can also delete your saved preferences, which are stored in `~/Library/Preferences/Reset Window.prefs`.
 
 If you use [AppZapper](http://www.appzapper.com/) to delete the app, your preferences will be deleted for you automatically.
-
-### Editing and customizing the app
-
-Although it's not obvious because OS X's scpt format is binary, the complete AppleScript source code for the program is included in its bundle. To edit it, open **Script Editor** (AKA **AppleScript Editor** in older OS X versions such as Mavericks) and then drag the app's icon onto Script Editor's dock icon.
-
-The app uses a small command-line utility to detect which modifier keys are pressed when it is launched; the source code for that utility is included in the app bundle's `Contents/Resources/modifier-keys` folder. Right-click on the app and select **Show Package Contents** from the context menu in order to browse to the folder.
-
-The app's icon can also be customized by updating `Contents/Resources/ResetWindow.icns`. [Acorn](http://flyingmeat.com/acorn/) and PNG versions of the image can be found in `Contents/Resources/reset-window-icon`.
