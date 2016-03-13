@@ -1,5 +1,13 @@
 (*
-Reset Window
+This is a Finder-toolbar script, which saves/restores the frontmost Finder window's size.
+To build it as an application, run build.sh; Reset Window.app will be created.
+To install the application, hold the Cmd key down and drag it into your Finder toolbar.
+
+When its icon is clicked on in the toolbar of a Finder window, it "resets" the frontmost Finder window,
+by setting some of its properties to your saved preferences: its size, whether the sidebar is visible,
+and the sidebar's width. To save instead of applying your preferences for these properties,
+click its icon with the fn or shift key held down.
+
 Copyright (c) 2009, 2014 Jason Jackson
 
 This program is free software: you can redistribute it and/or modify it under the terms
@@ -15,15 +23,15 @@ If not, see <http://www.gnu.org/licenses/>.
 *)
 
 -- Constants & defaults (used when no preferences have been saved)
-property myVersion : 1.2
-property defaultPrefs : {ver:myVersion, sidebarWidth:180, windowWidth:1000, windowHeight:900}
+property prefsVersion : 1
+property defaultPrefs : {ver:prefsVersion, sidebarWidth:180, windowWidth:1000, windowHeight:900}
 
 (*
 Either saves the frontmost Finder window's properties (if the fn or shift key is pressed),
 or resizes the frontmost Finder window to the preferred size and resets its sidebar.
 *)
 on run
-	set checkModifierKeysPath to POSIX path of (path to me) & "Contents/Resources/modifier-keys/modifier-keys"
+	set checkModifierKeysPath to POSIX path of (path to me) & "Contents/Resources/modifier-keys"
 	set modifierKeys to do shell script "\"" & checkModifierKeysPath & "\""
 	
 	if modifierKeys contains "fn" or modifierKeys contains "shift" then
@@ -46,7 +54,7 @@ Saves the given preferences to disk.
 Pass a record returned by GetFinderWindowProperties.
 *)
 on SavePreferences(prefs)
-	set ver of prefs to myVersion
+	set ver of prefs to prefsVersion
 	
 	set prefsPath to my GetPrefsPath()
 	set fp to missing value
@@ -104,7 +112,7 @@ on GetFinderWindowProperties()
 	set windowHeight to bottomPos - topPos
 	
 	-- return a record
-	return {ver:myVersion, sidebarWidth:sidebarWidth, windowWidth:windowWidth, windowHeight:windowHeight}
+	return {ver:prefsVersion, sidebarWidth:sidebarWidth, windowWidth:windowWidth, windowHeight:windowHeight}
 end GetFinderWindowProperties
 
 (*
