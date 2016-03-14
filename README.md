@@ -10,7 +10,7 @@ This little app helps make it less annoying: after you've dragged it into your F
 
 ##### Step 1: Download the files
 
-**Option 1:** Click GitHub's **Download ZIP** button above to download reset-finder-window-master.zip. Unzip it, and drag the resulting **reset-finder-window-master** folder to somewhere convenient, such as ~/AppleScripts. Feel free to rename the folder.
+**Option 1:** Click GitHub's **Download ZIP** button above to download reset-finder-window-master.zip. Unzip it, and drag the resulting reset-finder-window-master folder to somewhere convenient, such as ~/AppleScripts. Feel free to rename the folder.
 
 **Option 2:** Clone with Git, by running commands like the following in Terminal:
 
@@ -23,17 +23,17 @@ git clone https://github.com/jakshin/reset-finder-window.git
 
 ##### Step 2: Build the application
 
-Open a Terminal window in the folder which contains **Reset Window.applescript** (i.e. the **reset-finder-window-master** folder if you chose option 1 above, or **~/AppleScripts/reset-finder-window** if you chose option 2), and run the following command:
+Open a Terminal window in the folder which contains **Reset Window.applescript** (i.e. the reset-finder-window-master folder if you chose option 1 above, or ~/AppleScripts/reset-finder-window if you chose option 2), and run the following command:
 
 ```bash
 ./build.sh
 ```
 
-This will create **Reset Window.app** by compiling **Reset Window.applescript**.
+This will create **Reset Window.app** by compiling Reset Window.applescript.
 
-The icon file **icon/ResetWindow.icns** is used as the application's icon. The icon's original [Acorn](http://flyingmeat.com/acorn/) version is in **icon/ResetWindow.acorn**.
+The icon file icon/ResetWindow.icns is used as the application's icon; feel free to edit it. The icon's original [Acorn](http://flyingmeat.com/acorn/) version is in icon/ResetWindow.acorn.
 
-The **modifier-keys** command-line application, found in the **modifier-keys** folder, is incorporated into the application's bundle. The application uses it to determine which modifier keys are pressed as it is launched. The compiled binary is included in Git; if you'd like to recompile it from source yourself, you'll need to [install Xcode's command-line tools](https://developer.apple.com/library/ios/technotes/tn2339/_index.html), then run `make` in the **modifier-keys** folder.
+The modifier-keys command-line utility, found in the modifier-keys folder, is incorporated into the application's bundle. The application uses it to determine which modifier keys are pressed as it is launched. The compiled binary is included in Git; if you'd like to recompile it from its C source yourself, you'll need to [install Xcode's command-line tools](https://developer.apple.com/library/ios/technotes/tn2339/_index.html), then run `make` in the modifier-keys folder.
 
 
 ##### Step 3: Drag the application into your Finder toolbar
