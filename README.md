@@ -1,51 +1,49 @@
-### Introduction
+<p align="center">
+  <img src="Screenshots/App-Icon.png" alt="Reset Finder Window Icon"/>
+</p>
 
 It's annoying how Finder won't let you set a default window size for new folders, isn't it? And how sometimes it opens an existing folder, like your home folder, in a tiny little window which isn't your preferred size at all?
 
 This little app helps make it less annoying: after you've dragged it into your Finder toolbar, you can click its icon anytime to set your Finder window to the size you prefer.
 
 
-### Installation & Setup
+## Installation & Setup
 
 
-##### Step 1: Download the files
+### Step 1: Download the files
 
-**Option 1:** Click GitHub's **Download ZIP** button above to download reset-finder-window-master.zip. Unzip it, and drag the resulting reset-finder-window-master folder to somewhere convenient, such as ~/AppleScripts. Feel free to rename the folder.
-
-**Option 2:** Clone with Git, by running commands like the following in Terminal:
+Either click GitHub's **Clone or download > Download ZIP** button above to download reset-finder-window-master.zip, unzip it, and drag the resulting folder to somewhere convenient, such as `~/AppleScripts`, or clone with Git:
 
 ```bash
-mkdir ~/AppleScripts
-cd ~/AppleScripts
 git clone https://github.com/jakshin/reset-finder-window.git
 ```
 
 
-##### Step 2: Build the application
+### Step 2: Build the application
 
-Open a Terminal window in the folder which contains **Reset Window.applescript** (i.e. the reset-finder-window-master folder if you chose option 1 above, or ~/AppleScripts/reset-finder-window if you chose option 2), and run the following command:
+Open a Terminal window in the folder which contains `Reset Window.applescript`, and run the following command:
 
 ```bash
 ./build.sh
 ```
 
-This will create **Reset Window.app** by compiling Reset Window.applescript.
+This will create `Reset Window.app`.
 
-The icon file icon/ResetWindow.icns is used as the application's icon; feel free to edit it. The icon's original [Acorn](http://flyingmeat.com/acorn/) version is in icon/ResetWindow.acorn.
+The icon file `icon/ResetWindow.icns` is used as the application's icon; feel free to edit it. The icon's original [Acorn](http://flyingmeat.com/acorn/) version is in `icon/ResetWindow.acorn`.
 
-The modifier-keys command-line utility, found in the modifier-keys folder, is incorporated into the application's bundle. The application uses it to determine which modifier keys are pressed as it is launched. The compiled binary is included in Git; if you'd like to recompile it from its C source yourself, you'll need to [install Xcode's command-line tools](https://developer.apple.com/library/ios/technotes/tn2339/_index.html), then run `make` in the modifier-keys folder.
+A command-line utility named `modifier-keys` is incorporated into the application's bundle. The application uses it to determine which modifier keys are pressed as it is launched. The compiled binary is included in Git; if you'd like to recompile it from its C source yourself, you'll need to [install Xcode's command-line tools](https://developer.apple.com/library/ios/technotes/tn2339/_index.html), then run `make` in the `modifier-keys` folder.
 
 
-##### Step 3: Drag the application into your Finder toolbar
+### Step 3: Drag the application into your Finder toolbar
 
-Hold the **Cmd** key down and drag the application into your Finder toolbar:
+Hold the **command** key down and drag `Reset Window.app` into your Finder toolbar:
 
 ![[screenshot]](Screenshots/Drag-Icon.png)
 
 
-##### Step 4: Allow assistive access
+### Step 4: Allow assistive access
 
-Open System Preferences, then navigate to **Security & Privacy > Privacy > Accessibility**. If the lock icon in the lower left is closed, click it and enter your password. Drag **Reset Window.app** into the right-hand section of the System Preferences window, and ensure that its checkbox is checked:
+Open System Preferences, then navigate to **Security & Privacy > Privacy > Accessibility**. If the lock icon in the lower left is closed, click it and enter your password. Drag `Reset Window.app` into the right-hand section of the System Preferences window, and ensure that its checkbox is checked:
 
 ![[screenshot]](Screenshots/System-Settings.png)
 
@@ -54,7 +52,7 @@ If you skip this step, you may receive an error like the following when you atte
 ![[screenshot]](Screenshots/Not-Allowed.png)
 
 
-##### Step 5: Save your preferences
+### Step 5: Save your preferences
 
 Resize a Finder window to the size you like best. Also either drag the sidebar to your preferred size, or hide it completely. Then hold down either the **fn** or **shift** key, and click the app's icon in the Finder window's toolbar. You should see a dialog confirming that your preferences were saved:
 
@@ -64,9 +62,9 @@ Resize a Finder window to the size you like best. Also either drag the sidebar t
 Now you can apply your saved preferences in any Finder window just by clicking the application's icon in your Finder toolbar.
 
 
-### Uninstallation
+## Uninstallation
 
-To uninstall the app, hold the **Cmd** key down and drag its icon out of your Finder toolbar, then delete it.
+To uninstall the app, hold the **command** key down and drag its icon out of your Finder toolbar, then delete it.
 
 If you want to be really thorough, you can also delete your saved preferences, which are stored in `~/Library/Preferences/Reset Window.prefs`.
 
