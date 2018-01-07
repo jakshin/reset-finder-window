@@ -29,8 +29,6 @@ Open a Terminal window in the folder which contains `Reset Window.applescript`, 
 
 This will create `Reset Window.app`.
 
-The icon file `icon/ResetWindow.icns` is used as the application's icon; feel free to edit it. The icon's original [Acorn](http://flyingmeat.com/acorn/) version is in `icon/ResetWindow.acorn`.
-
 A command-line utility named `modifier-keys` is incorporated into the application's bundle. The application uses it to determine which modifier keys are pressed as it is launched. The compiled binary is included in Git; if you'd like to recompile it from its C source yourself, you'll need to [install Xcode's command-line tools](https://developer.apple.com/library/ios/technotes/tn2339/_index.html), then run `make` in the `modifier-keys` folder.
 
 
