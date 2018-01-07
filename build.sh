@@ -45,6 +45,9 @@ defaults write "$info_plist" NSHumanReadableCopyright "$copyright"
 plutil -convert xml1 "$info_plist"
 chmod 644 "$info_plist"
 
+# extract the icon, which must be stored in a zip to preserve its resource fork (ugh)
+ditto -xk icon/ResetWindow.icns.zip icon/
+
 # resources
 cp icon/ResetWindow.icns "$bundle_name/Contents/Resources/applet.icns"
 cp modifier-keys/modifier-keys "$bundle_name/Contents/Resources"
