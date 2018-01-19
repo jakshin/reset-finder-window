@@ -29,9 +29,13 @@ function absolute_path() {
 # run from the path in which the build script resides
 cd -- "`dirname "$0"`"
 
-# remove any old version of the app bundle, and create a new one
+# remove any existing version of the app bundle, and create a new one
 rm -rf "$bundle_name"
 osacompile -o "$bundle_name" "$script_name"
+
+# copy resources into the bundle
+cp icon/ResetWindow.icns "$bundle_name/Contents/Resources/applet.icns"
+cp modifier-keys/modifier-keys "$bundle_name/Contents/Resources"
 
 # fix up Info.plist
 info_plist="$(absolute_path "$bundle_name/Contents/Info.plist")"
@@ -44,13 +48,6 @@ defaults write "$info_plist" NSHumanReadableCopyright "$copyright"
 
 plutil -convert xml1 "$info_plist"
 chmod 644 "$info_plist"
-
-# extract the icon, which must be stored in a zip to preserve its resource fork (ugh)
-ditto -xk icon/ResetWindow.icns.zip icon/
-
-# resources
-cp icon/ResetWindow.icns "$bundle_name/Contents/Resources/applet.icns"
-cp modifier-keys/modifier-keys "$bundle_name/Contents/Resources"
 
 # success!
 echo Done
