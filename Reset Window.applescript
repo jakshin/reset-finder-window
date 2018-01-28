@@ -8,7 +8,7 @@ by setting some of its properties to your saved preferences: its size, whether t
 and the sidebar's width. To save instead of applying your preferences for these properties,
 click its icon with the fn or shift key held down.
 
-Copyright (c) 2009, 2014 Jason Jackson
+Copyright (c) 2009, 2014, 2018 Jason Jackson
 
 This program is free software: you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation,
@@ -32,7 +32,7 @@ or resizes the frontmost Finder window to the preferred size and resets its side
 *)
 on run
 	set checkModifierKeysPath to POSIX path of (path to me) & "Contents/Resources/modifier-keys"
-	set modifierKeys to do shell script "\"" & checkModifierKeysPath & "\""
+	set modifierKeys to do shell script quoted form of checkModifierKeysPath
 	
 	if modifierKeys contains "fn" or modifierKeys contains "shift" then
 		-- the fn or shift key is down, save current properties as preferences (if possible)
