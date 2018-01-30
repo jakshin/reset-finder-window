@@ -29,4 +29,8 @@ Finder is hidden                    refuse to run (no open windows)
 
 *1 In macOS Sierra 10.12.6, Finder adds/removes height from the window as the Status Bar is shown/hidden.
 
-*2 In macOS Sierra 10.12.6, Finder calculates window height differently by a few pixels when the Toolbar is hidden vs when it's visible. While the Toolbar is hidden, Finder forces the Sidebar to also be hidden, so if you save preferences while the Toolbar and Sidebar are visible, and restore preferences while it's hidden, the Sidebar remains hidden (as expected). If you save preferences while the Toolbar is hidden, and later restore in a window with the Toolbar visible, the Sidebar will be hidden, which might not be expected.
+*2 In macOS Sierra 10.12.6, Finder calculates window height differently by a few pixels when the Toolbar
+   is hidden vs when it's visible. While the Toolbar is hidden, Finder forces the Sidebar to also be hidden,
+   so if preferences are saved while the Toolbar and Sidebar are visible, and restored while it's hidden,
+   the Sidebar remains hidden (as expected). If preferences are saved while the Toolbar is hidden,
+   and later restored in a window with the Toolbar visible, the Sidebar will be hidden, which may be unexpected.
