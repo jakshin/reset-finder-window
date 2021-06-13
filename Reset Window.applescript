@@ -8,7 +8,7 @@ by setting some of its properties to your saved preferences: its size, whether t
 and the sidebar's width. To save instead of applying your preferences for these properties,
 click its icon with the fn or shift key held down.
 
-Version 1.3
+Version 1.3.1
 Copyright (c) 2009, 2014, 2018, 2021 Jason Jackson
 
 This program is free software: you can redistribute it and/or modify it under the terms
@@ -35,7 +35,11 @@ on run
 	set checkModifierKeysPath to POSIX path of (path to me) & "Contents/Resources/modifier-keys"
 	set modifierKeys to do shell script quoted form of checkModifierKeysPath
 	
-	if modifierKeys contains "fn" or modifierKeys contains "shift" then
+	if modifierKeys contains "option" then
+		-- the option key is down, and the Finder window will close, so we should do nothing
+		return
+		
+	else if modifierKeys contains "fn" or modifierKeys contains "shift" then
 		-- the fn or shift key is down, save current properties as preferences (if possible)
 		set prefs to my GetFinderWindowProperties()
 		
