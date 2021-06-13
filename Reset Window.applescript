@@ -8,7 +8,8 @@ by setting some of its properties to your saved preferences: its size, whether t
 and the sidebar's width. To save instead of applying your preferences for these properties,
 click its icon with the fn or shift key held down.
 
-Copyright (c) 2009, 2014, 2018 Jason Jackson
+Version 1.3
+Copyright (c) 2009, 2014, 2018, 2021 Jason Jackson
 
 This program is free software: you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation,
@@ -212,6 +213,13 @@ on GetFinderWindow(errorTitle)
 			set errorMessage to "There are no open Finder windows."
 		else
 			set errorMessage to systemErrorMessage
+			
+			if errorMessage contains "not allowed assistive access" then
+				set errorMessage to errorMessage & return & return & Â
+					"To fix this problem, open System Preferences and navigate to Security & Privacy > Accessibility. " & Â
+					"Find Reset Window in the list, and check its checkbox." & return & return & Â
+					"If its checkbox is already checked, remove it from the list, then add it again."
+			end if
 		end if
 	end try
 	
