@@ -8,8 +8,8 @@ by setting some of its properties to your saved preferences: its size, whether t
 and the sidebar's width. To save instead of applying your preferences for these properties,
 click its icon with the fn or shift key held down.
 
-Version 1.3.1
-Copyright (c) 2009, 2014, 2018, 2021 Jason Jackson
+Version 1.3.2
+Copyright (c) 2009, 2014, 2018, 2021, 2024 Jason Jackson
 
 This program is free software: you can redistribute it and/or modify it under the terms
 of the GNU General Public License as published by the Free Software Foundation,
@@ -32,27 +32,76 @@ Either saves the frontmost Finder window's properties (if the fn or shift key is
 or resizes the frontmost Finder window to the preferred size and resets its sidebar.
 *)
 on run
-	set checkModifierKeysPath to POSIX path of (path to me) & "Contents/Resources/modifier-keys"
-	set modifierKeys to do shell script quoted form of checkModifierKeysPath
-	
-	if modifierKeys contains "option" then
-		-- the option key is down, and the Finder window will close, so we should do nothing
-		return
+	try
+		set errorTitle to "Something went wrong"
+		set checkModifierKeysPath to POSIX path of (path to me) & "Contents/Resources/modifier-keys"
+		set modifierKeys to do shell script quoted form of checkModifierKeysPath
 		
-	else if modifierKeys contains "fn" or modifierKeys contains "shift" then
-		-- the fn or shift key is down, save current properties as preferences (if possible)
-		set prefs to my GetFinderWindowProperties()
-		
-		if length of prefs is not 0 then
-			my SavePreferences(prefs)
-			display alert "Preferences Saved" as informational message "The Finder window's properties were saved as your preferred settings."
+		if modifierKeys contains "option" then
+			-- the option key is down, and the Finder window will close, so we should do nothing
+			return
+			
+		else if modifierKeys contains "fn" or modifierKeys contains "shift" then
+			-- the fn or shift key is down, save current properties as preferences (if possible)
+			set errorTitle to "Finder Window Properties Can't Be Saved"
+			set prefs to my GetFinderWindowProperties()
+			
+			if length of prefs is not 0 then
+				my SavePreferences(prefs)
+				display alert "Preferences Saved" as informational message "The Finder window's properties were saved as your preferred settings."
+			end if
+		else
+			-- restore the saved preferences, or default preferences if none have been saved
+			set errorTitle to "Finder Window Can't Be Reset"
+			set prefs to my LoadPreferences()
+			my SetFinderWindowProperties(prefs)
 		end if
-	else
-		-- restore the saved preferences, or default preferences if none have been saved
-		set prefs to my LoadPreferences()
-		my SetFinderWindowProperties(prefs)
-	end if
+	on error errorMessage number errorNumber
+		my DisplayErrorAlert(errorTitle, errorMessage, errorNumber)
+	end try
 end run
+
+(*
+Displays an error message in a modal alert dialog.
+Adds some error-specific explanatory text when possible.
+*)
+on DisplayErrorAlert(title, errorMessage, errorNumber)
+	considering numeric strings
+		set versionString to system version of (system info)
+		set venturaOrLater to versionString ³ "13"
+	end considering
+	
+	set explanation to ""
+	if errorMessage contains "not allowed assistive access" then
+		if venturaOrLater then
+			set explanation to "To fix this problem, open System Settings and navigate to Privacy & Security > Accessibility. " & Â
+				"Find Reset Window in the list, and turn its toggle switch on." & return & return & Â
+				"If its toggle switch is already on, remove Reset Window from the list, then add it again."
+		else
+			set explanation to "To fix this problem, open System Preferences and navigate to Security & Privacy > Privacy tab > Accessibility. " & Â
+				"Find Reset Window in the list, and check its checkbox." & return & return & Â
+				"If its checkbox is already checked, remove Reset Window from the list, then add it again."
+		end if
+	else if errorMessage contains "Not authorized to send Apple events" then
+		if venturaOrLater then
+			set explanation to "To fix this problem, open System Settings and navigate to Privacy & Security > Automation. " & Â
+				"Find Reset Window in the list, and turn on its toggle switches."
+		else
+			set explanation to "To fix this problem, open System Preferences and navigate to Security & Privacy > Privacy tab > Automation. " & Â
+				"Find Reset Window in the list, and check its checkboxes."
+		end if
+	end if
+	
+	if errorMessage does not contain errorNumber then
+		set errorMessage to errorMessage & " (error " & errorNumber & ")"
+	end if
+	
+	if explanation is not "" then
+		set errorMessage to errorMessage & return & return & explanation
+	end if
+	
+	display alert title as critical message errorMessage
+end DisplayErrorAlert
 
 (*
 Saves the given preferences to disk.
@@ -194,8 +243,6 @@ or displays an error and returns null if Finder has no open windows,
 or the frontmost window isn't one we can save properties from or apply properties to.
 *)
 on GetFinderWindow(errorTitle)
-	set errorMessage to ""
-	
 	try
 		tell application "Finder"
 			set theWindow to the front window
@@ -203,36 +250,24 @@ on GetFinderWindow(errorTitle)
 			if theWindow's class as string is not "Çclass browÈ" or theWindow is not resizable then
 				-- "brow" = a browser, i.e. a normal Finder window; other classes include: "pwnd" = preferences window, 
 				-- "iwnd" = information window, "cwin" = view options panel, "window" = file copy/move window
-				set errorMessage to "The frontmost Finder window is not an ordinary Finder window."
+				error "The frontmost Finder window is not an ordinary Finder window." number 501
 				
 			else if theWindow is collapsed then
-				set errorMessage to "The frontmost Finder window is minimized."
+				error "The frontmost Finder window is minimized." number 502
 				
 			else if my FinderIsFullScreen(theWindow) then
-				set errorMessage to "The frontmost Finder window is in full-screen mode."
+				error "The frontmost Finder window is in full-screen mode." number 503
 			end if
 		end tell
-	on error systemErrorMessage number systemErrorNum
-		if systemErrorMessage contains "get window 1" then
-			set errorMessage to "There are no open Finder windows."
+	on error errorMessage number errorNumber
+		if errorMessage contains "get window 1" then
+			error "There are no open Finder windows." number errorNumber
 		else
-			set errorMessage to systemErrorMessage
-			
-			if errorMessage contains "not allowed assistive access" then
-				set errorMessage to errorMessage & return & return & Â
-					"To fix this problem, open System Preferences and navigate to Security & Privacy > Accessibility. " & Â
-					"Find Reset Window in the list, and check its checkbox." & return & return & Â
-					"If its checkbox is already checked, remove it from the list, then add it again."
-			end if
+			error errorMessage number errorNumber
 		end if
 	end try
 	
-	if errorMessage is not "" then
-		display alert errorTitle as critical message errorMessage
-		return null
-	else
-		return theWindow
-	end if
+	return theWindow
 end GetFinderWindow
 
 (*
